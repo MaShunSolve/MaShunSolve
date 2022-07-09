@@ -17,6 +17,7 @@ namespace JsonCompressTest
         {
             //1.Create 20萬筆至檔案
             string original = InsertData();
+
             //2.壓縮
             string base64Str = Compress(original);
             //3.解壓縮
@@ -32,7 +33,7 @@ namespace JsonCompressTest
             for (int i = 0; i < 200000; i++)
             {
                 TestModel msg = new TestModel();
-                msg.TestMessage01 = $"這是一個小測試編號{i.ToString().PadLeft(6, '0')}";
+                msg.TestMessage01 = $"這是一個小測試編號{i.ToString().PadLeft(6, '0')}"; 
                 msg.TestMessage02 = $"這只是一個小測試編號{i.ToString().PadLeft(6, '0')}";
                 msg.TestMessage03 = $"這還個小測試編號{i.ToString().PadLeft(6, '0')}";
                 msg.TestMessage04 = $"這一直是個小測試編號{i.ToString().PadLeft(6, '0')}";
@@ -65,7 +66,7 @@ namespace JsonCompressTest
         /// 測試訊息Model
         /// </summary>
         public class TestModel
-        {
+        { 
             public string TestMessage01 { get; set; }
             public string TestMessage02 { get; set; }
             public string TestMessage03 { get; set; }
@@ -87,56 +88,45 @@ namespace JsonCompressTest
             public string TestMessage19 { get; set; }
             public string TestMessage20 { get; set; }
         }
-        #region 壓縮字串BinaryFormmater
-        /// <summary>
-        /// 壓縮檔案 (BinaryFormatter)
-        /// </summary>
-        /// <param name="jsonStr"></param>
-        /// <returns></returns>
         public static string Compress(string jsonStr)
         {
+            string base64Str = "";
             Stopwatch sw = Stopwatch.StartNew();
             sw.Start();
-            MemoryStream zippedStream = new MemoryStream();
-            using (GZipStream gzip = new GZipStream(zippedStream, CompressionMode.Compress))
+            byte[] buffer = Encoding.UTF8.GetBytes(jsonStr);
+            using (var zippedStream = new MemoryStream())
+            using (var zip = new GZipStream(zippedStream, CompressionMode.Compress))
             {
-                BinaryFormatter bfmt = new BinaryFormatter();
-                bfmt.Serialize(gzip, jsonStr);
-                gzip.Flush();
+                zip.Write(buffer, 0, buffer.Length);
+                zip.Close();
+                base64Str = Convert.ToBase64String(zippedStream.ToArray());
             }
-
-            byte[] zippedBuf = zippedStream.ToArray();
-            string base64Str = Convert.ToBase64String(zippedBuf);
             sw.Stop();
             string filePath = GetFilePath(2);
             WriteFile(filePath, base64Str);
             Console.WriteLine($"Gzip壓縮共耗時 : {sw.ElapsedMilliseconds}毫秒");
             return base64Str;
         }
-        #endregion
-
-        #region 解壓縮字串(BinaryFormatter)
-        /// <summary>
-        /// 解壓縮字串
-        /// </summary>
-        /// <param name="base64Str"></param>
+        
+        #region 解壓縮
         public static void Decompress(string base64Str)
         {
-            Stopwatch sw = new Stopwatch();
+            Stopwatch sw = Stopwatch.StartNew();
             sw.Start();
-            string jsonStr;
-            byte[] data = Convert.FromBase64String(base64Str);
-            MemoryStream zippedStream = new MemoryStream(data);
-            using (GZipStream gzip = new GZipStream(zippedStream, CompressionMode.Decompress))
+            byte[] buffer = Convert.FromBase64String(base64Str);
+            using (var inStream = new MemoryStream(buffer))
+            using (var outStream = new MemoryStream())
+            using (var zip = new GZipStream(inStream, CompressionMode.Decompress))
             {
-                BinaryFormatter bfmt = new BinaryFormatter();
-                jsonStr = (string)bfmt.Deserialize(gzip);
+                zip.CopyTo(outStream);
+                zip.Close();
+
+                string jsonStr = Encoding.UTF8.GetString(outStream.ToArray());
+                sw.Stop();
+                string filePath = GetFilePath(3);
+                WriteFile(filePath, jsonStr);
+                Console.WriteLine($"解壓縮共耗時{sw.ElapsedMilliseconds}毫秒");
             }
-            sw.Stop();
-            string filePath = GetFilePath(3);
-            WriteFile(filePath, jsonStr);
-            Console.WriteLine($"解壓縮共耗時{sw.ElapsedMilliseconds}毫秒");
-            Console.ReadKey();
         }
         #endregion
         /// <summary>
