@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "dgSpecHash": "wmiSooCb6QkWWMovj/ol1IkAWgZwasDEiIZwP2TnO8Wxh90+YvvvgejWSv/s+Qpr6aqKyvXvG2sIE4CjK/He2Q==",
+  "success": true,
+  "projectFilePath": "C:\\Users\\user\\Desktop\\gitHub\\JsonStringCompressTest\\JsonStringCompressTest\\JsonStringCompressTest.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\user\\.nuget\\packages\\newtonsoft.json\\13.0.1\\newtonsoft.json.13.0.1.nupkg.sha512"
+  ],
+  "logs": []
+}
