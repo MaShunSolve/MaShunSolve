@@ -11,9 +11,16 @@ namespace ObjectOrientedPractice
         /// </summary>
         private int shoutNum = 3;
         public int ShoutNum
-        { 
+        {
             get { return shoutNum; }
-            set { shoutNum = value; }
+            set
+            {
+                if (value <= 10)
+                    shoutNum = value;
+                else
+                    shoutNum = 10;
+
+            }
         }
         private string name = "";
         /// <summary>
@@ -31,7 +38,7 @@ namespace ObjectOrientedPractice
         {
             this.name = "等待取名";
         }
-        
+
         /// <summary>
         /// 貓叫
         /// </summary>
