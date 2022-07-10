@@ -6,6 +6,15 @@ namespace ObjectOrientedPractice
     /// </summary>
     public class Cat
     {
+        /// <summary>
+        /// 貓叫次數
+        /// </summary>
+        private int shoutNum = 3;
+        public int ShoutNum
+        { 
+            get { return shoutNum; }
+            set { shoutNum = value; }
+        }
         private string name = "";
         /// <summary>
         /// 定義Cat類別建構式
@@ -22,10 +31,19 @@ namespace ObjectOrientedPractice
         {
             this.name = "等待取名";
         }
-
+        
+        /// <summary>
+        /// 貓叫
+        /// </summary>
+        /// <returns></returns>
         public string Shout()
         {
-            return $"My name is {name} 喵~";
+            string result = "";
+            for (int i = 0; i < shoutNum; i++)
+            {
+                result += "喵~";
+            }
+            return result;
         }
     }
 }
