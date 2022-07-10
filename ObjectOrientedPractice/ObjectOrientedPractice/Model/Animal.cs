@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
+﻿
 namespace ObjectOrientedPractice
 {
     public class Animal
@@ -32,6 +27,10 @@ namespace ObjectOrientedPractice
         {
             get { return shoutNum; }
             set { shoutNum = value; }
+        }
+        public virtual string Shout()
+        {
+            return "";
         }
     }
 }

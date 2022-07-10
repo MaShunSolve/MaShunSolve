@@ -18,7 +18,7 @@ namespace ObjectOrientedPractice
         /// 貓叫
         /// </summary>
         /// <returns></returns>
-        public string Shout()
+        public override string Shout()
         {
             string result = "";
             for (int i = 0; i < shoutNum; i++)
