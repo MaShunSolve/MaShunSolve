@@ -1,7 +1,7 @@
 ﻿
 namespace ObjectOrientedPractice
 {
-    public class Animal
+    public abstract class Animal
     {
         /// <summary>
         /// 名字
@@ -28,9 +28,6 @@ namespace ObjectOrientedPractice
             get { return shoutNum; }
             set { shoutNum = value; }
         }
-        public virtual string Shout()
-        {
-            return "";
-        }
+        public abstract string Shout();
     }
 }

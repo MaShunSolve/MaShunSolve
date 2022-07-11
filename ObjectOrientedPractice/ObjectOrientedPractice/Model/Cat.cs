@@ -12,7 +12,7 @@ namespace ObjectOrientedPractice
         /// 定義Cat類別建構式
         /// </summary>
         /// <param name="name"></param>
-        public Cat(string name) :base(name)
+        public Cat(string name) : base(name)
         { }
         /// <summary>
         /// 貓叫
